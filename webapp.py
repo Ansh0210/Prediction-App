@@ -17,9 +17,9 @@ st.set_page_config(
 def load_diabetes_model():
     try:
         with open('./Diabetes Prediction/diabetes_model.pkl', 'rb') as file:
-            model = pickle.load(file)
-        return model
-    
+            artifacts = pickle.load(file)
+        return artifacts
+
     except FileNotFoundError as e:
         st.error(f"Model file not found: {e}")
         return None
@@ -79,7 +79,7 @@ if selected_model == "Model 1":
     ca_artifacts = load_ca_house_model()
 
 elif selected_model == "Model 2":
-    diabetes_model = load_diabetes_model()
+    diabetes_artifacts = load_diabetes_model()
 
 else:
     st.warning("Please select a valid model.")
@@ -152,7 +152,7 @@ with col2:
         predict_disabled = True
         st.warning("Model 1 is not loaded properly. Prediction disabled.")
         
-    elif selected_model == "Model 2" and diabetes_model is None:
+    elif selected_model == "Model 2" and diabetes_artifacts is None:
         predict_disabled = True
         st.warning("Diabetes model is not loaded properly. Prediction disabled.")
         
@@ -210,7 +210,7 @@ with col2:
                     st.write(f"Error type: {type(e)}")
                     st.write(f"Error message: {str(e)}")
         
-        elif selected_model == "Model 2" and diabetes_model is not None:
+        elif selected_model == "Model 2" and diabetes_artifacts is not None:
             try:
                 input_data = np.array([[feat1_pregnant, feat2_glucose, feat3_insulin, feat4_BMI, feat5_DiabetesPedigree, feat6_age]])
                 
@@ -218,11 +218,13 @@ with col2:
                     st.write("Analyzing patient data...")
                     time.sleep(1.5)
                     
-                    prediction = diabetes_model.predict(input_data)
-                    # prediction_proba = diabetes_model.predict_proba(input_data)
+                    scaled_input = diabetes_artifacts['scaler'].transform(input_data)
                     
                     st.write("Running diabetes risk assessment...")
                     time.sleep(1)
+
+                    prediction = diabetes_artifacts['model'].predict(scaled_input)
+                    # prediction_proba = diabetes_model.predict_proba(input_data)
                     st.write("Finalizing results...")
                     time.sleep(1)
                     status.update(label="Analysis Complete!", state="complete", expanded=False)
