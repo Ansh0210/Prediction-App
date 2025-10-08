@@ -249,5 +249,5 @@ with col2:
 
 # Footer
 st.markdown("---")
-st.write("Developed by Shivansh Shukla)")
+st.write("Developed by Shivansh Shukla 😊")
 st.markdown("💡 **Tip:** Models can make mistakes. Use predictions wisely!")
