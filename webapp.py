@@ -232,10 +232,10 @@ with col2:
                 st.success("✅ Diabetes risk prediction complete!")
                 
                 if prediction[0] == 1:
-                    st.error("⚠️ High Risk of Diabetes")
+                    # st.error("⚠️ High Risk of Diabetes")
                     risk_level = "High Risk!"
                 else:
-                    st.success("✅ Low Risk of Diabetes")
+                    # st.success("✅ Low Risk of Diabetes")
                     risk_level = "Low Risk!"
                     
                 st.metric("Diabetes Prediction: ", risk_level)
